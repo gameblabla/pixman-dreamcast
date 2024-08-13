@@ -20,7 +20,7 @@ dnl  PERFORMANCE OF THIS SOFTWARE.
 dnl
 dnl Process this file with autoconf to create configure.
 
-AC_PREREQ([2.71])
+AC_PREREQ([2.57])
 
 #   Pixman versioning scheme
 #
@@ -58,7 +58,7 @@ m4_define([pixman_micro], 4)
 
 m4_define([pixman_version],[pixman_major.pixman_minor.pixman_micro])
 
-AC_INIT([pixman],[pixman_version],[pixman@lists.freedesktop.org],[pixman])
+AC_INIT(pixman, pixman_version, [pixman@lists.freedesktop.org], pixman)
 AM_INIT_AUTOMAKE([foreign dist-bzip2])
 
 # Suppress verbose compile lines
@@ -72,7 +72,7 @@ test_CFLAGS=${CFLAGS+set} # We may override autoconf default CFLAGS.
 
 AC_PROG_CC
 AM_PROG_AS
-LT_INIT
+AC_PROG_LIBTOOL
 AC_CHECK_FUNCS([getisax])
 AC_C_BIGENDIAN
 AC_C_INLINE
@@ -301,7 +301,8 @@ int main () {
 CFLAGS=$xserver_save_CFLAGS
 
 AC_ARG_ENABLE(loongson-mmi,
-   [AS_HELP_STRING([--disable-loongson-mmi],[disable Loongson MMI fast paths])],
+   [AC_HELP_STRING([--disable-loongson-mmi],
+                   [disable Loongson MMI fast paths])],
    [enable_loongson_mmi=$enableval], [enable_loongson_mmi=auto])
 
 if test $enable_loongson_mmi = no ; then
@@ -379,7 +380,8 @@ int main () {
 CFLAGS=$xserver_save_CFLAGS
 
 AC_ARG_ENABLE(mmx,
-   [AS_HELP_STRING([--disable-mmx],[disable x86 MMX fast paths])],
+   [AC_HELP_STRING([--disable-mmx],
+                   [disable x86 MMX fast paths])],
    [enable_mmx=$enableval], [enable_mmx=auto])
 
 if test $enable_mmx = no ; then
@@ -436,7 +438,8 @@ int main () {
 CFLAGS=$xserver_save_CFLAGS
 
 AC_ARG_ENABLE(sse2,
-   [AS_HELP_STRING([--disable-sse2],[disable SSE2 fast paths])],
+   [AC_HELP_STRING([--disable-sse2],
+                   [disable SSE2 fast paths])],
    [enable_sse2=$enableval], [enable_sse2=auto])
 
 if test $enable_sse2 = no ; then
@@ -480,7 +483,8 @@ int main () {
 CFLAGS=$xserver_save_CFLAGS
 
 AC_ARG_ENABLE(ssse3,
-   [AS_HELP_STRING([--disable-ssse3],[disable SSSE3 fast paths])],
+   [AC_HELP_STRING([--disable-ssse3],
+                   [disable SSSE3 fast paths])],
    [enable_ssse3=$enableval], [enable_ssse3=auto])
 
 if test $enable_ssse3 = no ; then
@@ -560,7 +564,8 @@ int main () {
 CFLAGS=$xserver_save_CFLAGS
 
 AC_ARG_ENABLE(vmx,
-   [AS_HELP_STRING([--disable-vmx],[disable VMX fast paths])],
+   [AC_HELP_STRING([--disable-vmx],
+                   [disable VMX fast paths])],
    [enable_vmx=$enableval], [enable_vmx=auto])
 
 if test $enable_vmx = no ; then
@@ -602,7 +607,8 @@ uqadd8 r0, r0, r0]])], have_arm_simd=yes)
 CFLAGS=$xserver_save_CFLAGS
 
 AC_ARG_ENABLE(arm-simd,
-   [AS_HELP_STRING([--disable-arm-simd],[disable ARM SIMD fast paths])],
+   [AC_HELP_STRING([--disable-arm-simd],
+                   [disable ARM SIMD fast paths])],
    [enable_arm_simd=$enableval], [enable_arm_simd=auto])
 
 if test $enable_arm_simd = no ; then
@@ -642,7 +648,8 @@ vmovn.u16 d0, q0]])], have_arm_neon=yes)
 CFLAGS=$xserver_save_CFLAGS
 
 AC_ARG_ENABLE(arm-neon,
-   [AS_HELP_STRING([--disable-arm-neon],[disable ARM NEON fast paths])],
+   [AC_HELP_STRING([--disable-arm-neon],
+                   [disable ARM NEON fast paths])],
    [enable_arm_neon=$enableval], [enable_arm_neon=auto])
 
 if test $enable_arm_neon = no ; then
@@ -664,11 +671,13 @@ dnl ===========================================================================
 dnl Check for IWMMXT
 
 AC_ARG_ENABLE(arm-iwmmxt,
-   [AS_HELP_STRING([--disable-arm-iwmmxt],[disable ARM IWMMXT fast paths])],
+   [AC_HELP_STRING([--disable-arm-iwmmxt],
+                   [disable ARM IWMMXT fast paths])],
    [enable_iwmmxt=$enableval], [enable_iwmmxt=auto])
 
 AC_ARG_ENABLE(arm-iwmmxt2,
-   [AS_HELP_STRING([--disable-arm-iwmmxt2],[build ARM IWMMXT fast paths with -march=iwmmxt instead of -march=iwmmxt2])],
+   [AC_HELP_STRING([--disable-arm-iwmmxt2],
+                   [build ARM IWMMXT fast paths with -march=iwmmxt instead of -march=iwmmxt2])],
    [enable_iwmmxt2=$enableval], [enable_iwmmxt2=auto])
 
 if test "x$IWMMXT_CFLAGS" = "x" ; then
@@ -746,7 +755,8 @@ main ()
 CFLAGS=$xserver_save_CFLAGS
 
 AC_ARG_ENABLE(mips-dspr2,
-   [AS_HELP_STRING([--disable-mips-dspr2],[disable MIPS DSPr2 fast paths])],
+   [AC_HELP_STRING([--disable-mips-dspr2],
+                   [disable MIPS DSPr2 fast paths])],
    [enable_mips_dspr2=$enableval], [enable_mips_dspr2=auto])
 
 if test $enable_mips_dspr2 = no ; then
@@ -777,7 +787,8 @@ int main () {
 }]])], have_gcc_inline_asm=yes)
 
 AC_ARG_ENABLE(gcc-inline-asm,
-   [AS_HELP_STRING([--disable-gcc-inline-asm],[disable GNU-style inline assembler])],
+   [AC_HELP_STRING([--disable-gcc-inline-asm],
+                   [disable GNU-style inline assembler])],
    [enable_gcc_inline_asm=$enableval], [enable_gcc_inline_asm=auto])
 
 if test $enable_gcc_inline_asm = no ; then
@@ -799,7 +810,8 @@ dnl ==============================================
 dnl Static test programs
 
 AC_ARG_ENABLE(static-testprogs,
-   [AS_HELP_STRING([--enable-static-testprogs],[build test programs as static binaries [default=no]])],
+   [AC_HELP_STRING([--enable-static-testprogs],
+		   [build test programs as static binaries [default=no]])],
    [enable_static_testprogs=$enableval], [enable_static_testprogs=no])
 
 TESTPROGS_EXTRA_LDFLAGS=
@@ -812,7 +824,8 @@ dnl ==============================================
 dnl Timers
 
 AC_ARG_ENABLE(timers,
-   [AS_HELP_STRING([--enable-timers],[enable TIMER_BEGIN and TIMER_END macros [default=no]])],
+   [AC_HELP_STRING([--enable-timers],
+		   [enable TIMER_BEGIN and TIMER_END macros [default=no]])],
    [enable_timers=$enableval], [enable_timers=no])
 
 if test $enable_timers = yes ; then 
@@ -824,7 +837,8 @@ dnl ===================================
 dnl gnuplot
 
 AC_ARG_ENABLE(gnuplot,
-   [AS_HELP_STRING([--enable-gnuplot],[enable output of filters that can be piped to gnuplot [default=no]])],
+   [AC_HELP_STRING([--enable-gnuplot],
+                   [enable output of filters that can be piped to gnuplot [default=no]])],
    [enable_gnuplot=$enableval], [enable_gnuplot=no])
 
 if test $enable_gnuplot = yes ; then
@@ -836,7 +850,8 @@ dnl ===================================
 dnl GTK+
 
 AC_ARG_ENABLE(gtk,
-   [AS_HELP_STRING([--enable-gtk],[enable tests using GTK+ [default=auto]])],
+   [AC_HELP_STRING([--enable-gtk],
+                   [enable tests using GTK+ [default=auto]])],
    [enable_gtk=$enableval], [enable_gtk=auto])
 
 PKG_PROG_PKG_CONFIG
@@ -929,7 +944,7 @@ AC_CACHE_VAL(ac_cv_tls, [
     ac_cv_tls=none
     keywords="__thread __declspec(thread)"
     for kw in $keywords ; do
-        AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+        AC_TRY_COMPILE([
 #if defined(__MINGW32__) && !(__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 5))
 #error This MinGW version has broken __thread support
 #endif
@@ -937,7 +952,7 @@ AC_CACHE_VAL(ac_cv_tls, [
 #error OpenBSD has broken __thread support
 #endif
 
-int $kw test;]], [[]])],[ac_cv_tls=$kw; break],[])
+int $kw test;], [], [ac_cv_tls=$kw; break])
     done
 ])
 AC_MSG_RESULT($ac_cv_tls)
@@ -1114,14 +1129,13 @@ fi
 
 AC_SUBST(HAVE_LIBPNG)
 
-AC_CONFIG_FILES([pixman-1.pc
+AC_OUTPUT([pixman-1.pc
            pixman-1-uninstalled.pc
            Makefile
 	   pixman/Makefile
 	   pixman/pixman-version.h
 	   demos/Makefile
 	   test/Makefile])
-AC_OUTPUT
 
 m4_if(m4_eval(pixman_minor % 2), [1], [
    echo
