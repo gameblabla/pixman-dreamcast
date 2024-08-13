@@ -2,7 +2,7 @@
 CC = kos-cc
 AR = sh-elf-gcc-ar
 
-CFLAGS = -Ipixman -DPIXMAN_NO_TLS=1 -I. -DPACKAGE=1 -DNDEBUG=1
+CFLAGS = -Ipixman -DPIXMAN_NO_TLS=1 -I. -DPACKAGE=1 -DNDEBUG=1 -Wno-incompatible-pointer-types
 
 # Source directory
 SRCDIR = ./pixman
