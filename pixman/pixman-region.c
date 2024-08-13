@@ -338,6 +338,9 @@ int
 PREFIX (_print) (region_type_t *rgn)
 {
     int num, size;
+#ifdef NDEBUG
+	num = 0;
+#else
     int i;
     box_type_t * rects;
 
@@ -359,7 +362,7 @@ PREFIX (_print) (region_type_t *rgn)
     }
     
     fprintf (stderr, "\n");
-
+#endif
     return(num);
 }
 

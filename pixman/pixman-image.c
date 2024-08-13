@@ -27,7 +27,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <assert.h>
+#include "fake_assert.h"
 
 #include "pixman-private.h"
 
@@ -165,7 +165,7 @@ _pixman_image_fini (pixman_image_t *image)
 	     * method to the linear/radial/conical gradient overwriting
 	     * the general one.
 	     */
-	    assert (
+	    REAL_assert (
 		image->common.property_changed == gradient_property_changed);
 	}
 

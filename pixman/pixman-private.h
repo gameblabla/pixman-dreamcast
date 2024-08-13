@@ -24,7 +24,7 @@
 
 #include "pixman.h"
 #include <time.h>
-#include <assert.h>
+#include "fake_assert.h"
 #include <stdio.h>
 #include <string.h>
 #include <stddef.h>
@@ -1044,7 +1044,7 @@ float pixman_unorm_to_float (uint16_t u, int n_bits);
 #undef DEBUG
 
 #define COMPILE_TIME_ASSERT(x)						\
-    do { typedef int compile_time_assertion [(x)?1:-1]; } while (0)
+    do { typedef int compile_time_REAL_assertion [(x)?1:-1]; } while (0)
 
 /* Turn on debugging depending on what type of release this is
  */

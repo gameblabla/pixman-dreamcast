@@ -23,7 +23,7 @@
 /*
  * Matrix interfaces
  */
-
+#include "fake_assert.h"
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -70,7 +70,7 @@ rounded_udiv_128_by_48 (uint64_t  hi,
                         uint64_t *result_hi)
 {
     uint64_t tmp, remainder, result_lo;
-    assert(div < ((uint64_t)1 << 48));
+    REAL_assert(div < ((uint64_t)1 << 48));
 
     remainder = hi % div;
     *result_hi = hi / div;
@@ -206,12 +206,12 @@ pixman_transform_point_31_16 (const pixman_transform_t    *t,
 
     /* input vector values must have no more than 31 bits (including sign)
      * in the integer part */
-    assert (v->v[0] <   ((pixman_fixed_48_16_t)1 << (30 + 16)));
-    assert (v->v[0] >= -((pixman_fixed_48_16_t)1 << (30 + 16)));
-    assert (v->v[1] <   ((pixman_fixed_48_16_t)1 << (30 + 16)));
-    assert (v->v[1] >= -((pixman_fixed_48_16_t)1 << (30 + 16)));
-    assert (v->v[2] <   ((pixman_fixed_48_16_t)1 << (30 + 16)));
-    assert (v->v[2] >= -((pixman_fixed_48_16_t)1 << (30 + 16)));
+    REAL_assert (v->v[0] <   ((pixman_fixed_48_16_t)1 << (30 + 16)));
+    REAL_assert (v->v[0] >= -((pixman_fixed_48_16_t)1 << (30 + 16)));
+    REAL_assert (v->v[1] <   ((pixman_fixed_48_16_t)1 << (30 + 16)));
+    REAL_assert (v->v[1] >= -((pixman_fixed_48_16_t)1 << (30 + 16)));
+    REAL_assert (v->v[2] <   ((pixman_fixed_48_16_t)1 << (30 + 16)));
+    REAL_assert (v->v[2] >= -((pixman_fixed_48_16_t)1 << (30 + 16)));
 
     for (i = 0; i < 3; i++)
     {
@@ -273,7 +273,7 @@ pixman_transform_point_31_16 (const pixman_transform_t    *t,
         {
             /* the divisor is small, we can actually keep all the bits */
             int64_t hi, rhi, lo, rlo;
-            int64_t div = (divint << 16) + divfrac;
+            int64_t div = ((uint64_t)divint << 16) + divfrac;
 
             fixed_64_16_to_int128 (tmp[0][0], tmp[0][1], &hi, &lo, 32);
             rlo = rounded_sdiv_128_by_49 (hi, lo, div, &rhi);
@@ -312,10 +312,10 @@ pixman_transform_point_31_16_affine (const pixman_transform_t    *t,
 
     /* input vector values must have no more than 31 bits (including sign)
      * in the integer part */
-    assert (v->v[0] <   ((pixman_fixed_48_16_t)1 << (30 + 16)));
-    assert (v->v[0] >= -((pixman_fixed_48_16_t)1 << (30 + 16)));
-    assert (v->v[1] <   ((pixman_fixed_48_16_t)1 << (30 + 16)));
-    assert (v->v[1] >= -((pixman_fixed_48_16_t)1 << (30 + 16)));
+    REAL_assert (v->v[0] <   ((pixman_fixed_48_16_t)1 << (30 + 16)));
+    REAL_assert (v->v[0] >= -((pixman_fixed_48_16_t)1 << (30 + 16)));
+    REAL_assert (v->v[1] <   ((pixman_fixed_48_16_t)1 << (30 + 16)));
+    REAL_assert (v->v[1] >= -((pixman_fixed_48_16_t)1 << (30 + 16)));
 
     hi0  = (int64_t)t->matrix[0][0] * (v->v[0] >> 16);
     lo0  = (int64_t)t->matrix[0][0] * (v->v[0] & 0xFFFF);
@@ -344,12 +344,12 @@ pixman_transform_point_31_16_3d (const pixman_transform_t    *t,
 
     /* input vector values must have no more than 31 bits (including sign)
      * in the integer part */
-    assert (v->v[0] <   ((pixman_fixed_48_16_t)1 << (30 + 16)));
-    assert (v->v[0] >= -((pixman_fixed_48_16_t)1 << (30 + 16)));
-    assert (v->v[1] <   ((pixman_fixed_48_16_t)1 << (30 + 16)));
-    assert (v->v[1] >= -((pixman_fixed_48_16_t)1 << (30 + 16)));
-    assert (v->v[2] <   ((pixman_fixed_48_16_t)1 << (30 + 16)));
-    assert (v->v[2] >= -((pixman_fixed_48_16_t)1 << (30 + 16)));
+    REAL_assert (v->v[0] <   ((pixman_fixed_48_16_t)1 << (30 + 16)));
+    REAL_assert (v->v[0] >= -((pixman_fixed_48_16_t)1 << (30 + 16)));
+    REAL_assert (v->v[1] <   ((pixman_fixed_48_16_t)1 << (30 + 16)));
+    REAL_assert (v->v[1] >= -((pixman_fixed_48_16_t)1 << (30 + 16)));
+    REAL_assert (v->v[2] <   ((pixman_fixed_48_16_t)1 << (30 + 16)));
+    REAL_assert (v->v[2] >= -((pixman_fixed_48_16_t)1 << (30 + 16)));
 
     for (i = 0; i < 3; i++)
     {

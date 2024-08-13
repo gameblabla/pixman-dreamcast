@@ -420,7 +420,7 @@ bits_image_fetch_pixel_filtered (bits_image_t  *image,
     case PIXMAN_FILTER_FAST:
 	bits_image_fetch_pixel_nearest (image, x, y, get_pixel, out);
 	break;
-
+/*
     case PIXMAN_FILTER_BILINEAR:
     case PIXMAN_FILTER_GOOD:
     case PIXMAN_FILTER_BEST:
@@ -429,7 +429,7 @@ bits_image_fetch_pixel_filtered (bits_image_t  *image,
 	else
 	    bits_image_fetch_pixel_bilinear_32 (image, x, y, get_pixel, out);
 	break;
-
+*/
     case PIXMAN_FILTER_CONVOLUTION:
 	if (wide)
 	    bits_image_fetch_pixel_convolution (image, x, y,

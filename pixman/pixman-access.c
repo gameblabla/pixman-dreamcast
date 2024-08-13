@@ -30,7 +30,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
+#include "fake_assert.h"
 #include <math.h>
 
 #include "pixman-accessor.h"
@@ -242,7 +242,7 @@ get_shifts (pixman_format_code_t  format,
 	break;
 
     default:
-	assert (0);
+	REAL_assert (0);
 	break;
     }
 }
@@ -1219,7 +1219,7 @@ store_scanline_generic_float (bits_image_t *  image,
 {
     uint32_t *argb8_pixels;
 
-    assert (image->common.type == BITS);
+    REAL_assert (image->common.type == BITS);
 
     argb8_pixels = pixman_malloc_ab (width, sizeof(uint32_t));
     if (!argb8_pixels)

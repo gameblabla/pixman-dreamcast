@@ -27,7 +27,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include <assert.h>
+#include "fake_assert.h"
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -184,12 +184,12 @@ integral (pixman_kernel_t kernel1, double x1,
     }
     else if (kernel1 == PIXMAN_KERNEL_IMPULSE)
     {
-	assert (width == 0.0);
+	REAL_assert (width == 0.0);
 	return filters[kernel2].func (x2 * scale);
     }
     else if (kernel2 == PIXMAN_KERNEL_IMPULSE)
     {
-	assert (width == 0.0);
+	REAL_assert (width == 0.0);
 	return filters[kernel1].func (x1);
     }
     else

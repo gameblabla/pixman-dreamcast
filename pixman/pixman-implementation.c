@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
  * SOFTWARE.
  */
-
+#include "fake_assert.h"
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -33,7 +33,7 @@ _pixman_implementation_create (pixman_implementation_t *fallback,
 {
     pixman_implementation_t *imp;
 
-    assert (fast_paths);
+    REAL_assert (fast_paths);
 
     if ((imp = malloc (sizeof (pixman_implementation_t))))
     {
@@ -392,13 +392,15 @@ _pixman_choose_implementation (void)
 
     imp = _pixman_implementation_create_general();
 
-    if (!_pixman_disabled ("fast"))
+   // if (!_pixman_disabled ("fast"))
 	imp = _pixman_implementation_create_fast_path (imp);
 
+/*
     imp = _pixman_x86_get_implementations (imp);
     imp = _pixman_arm_get_implementations (imp);
     imp = _pixman_ppc_get_implementations (imp);
     imp = _pixman_mips_get_implementations (imp);
+*/
 
     imp = _pixman_implementation_create_noop (imp);
 
