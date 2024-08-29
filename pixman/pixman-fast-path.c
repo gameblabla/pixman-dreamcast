@@ -31,6 +31,7 @@
 #include "pixman-private.h"
 #include "pixman-combine32.h"
 #include "pixman-inlines.h"
+#include "dc.h"
 
 static force_inline uint32_t
 fetch_24 (uint8_t *a)
@@ -931,7 +932,31 @@ fast_composite_add_1_1 (pixman_implementation_t *imp,
                            src_stride, src_line, 1);
     PIXMAN_IMAGE_GET_LINE (dest_image, 0, dest_y, uint32_t,
                            dst_stride, dst_line, 1);
+#if 1 // Faster, gameblabla, to test if it works
+    while (height--)
+    {
+        dst = dst_line;
+        dst_line += dst_stride;
+        src = src_line;
+        src_line += src_stride;
+        w = width;
 
+        while (w >= 32)
+        {
+            uint32_t src_bits = *src++;
+            *dst++ |= src_bits;
+            w -= 32;
+        }
+
+        if (w > 0)
+        {
+            uint32_t src_bits = *src;
+            uint32_t dst_bits = *dst;
+            uint32_t mask = CREATE_BITMASK(w);
+            *dst = (dst_bits & ~mask) | (src_bits & mask);
+        }
+    }
+#else
     while (height--)
     {
 	dst = dst_line;
@@ -950,6 +975,7 @@ fast_composite_add_1_1 (pixman_implementation_t *imp,
 		SET_BIT (dst, dest_x + w);
 	}
     }
+#endif
 }
 
 static void
@@ -1175,7 +1201,7 @@ fast_composite_src_memcpy (pixman_implementation_t *imp,
 
     while (height--)
     {
-	memcpy (dst, src, n_bytes);
+	REAL_MEMCPY (dst, src, n_bytes);
 
 	dst += dst_stride;
 	src += src_stride;
@@ -2450,7 +2476,7 @@ fast_bilinear_cover_iter_init (pixman_iter_t *iter, const pixman_iter_info_t *it
     if (!pixman_transform_point_3d (iter->image->common.transform, &v))
 	goto fail;
 
-    info = malloc (sizeof (*info) + (2 * width - 1) * sizeof (uint64_t));
+    info = aligned_alloc (4,sizeof (*info) + (2 * width - 1) * sizeof (uint64_t));
     if (!info)
 	goto fail;
 
@@ -2968,23 +2994,19 @@ bits_image_fetch_bilinear_affine (pixman_image_t * image,
 		mask2 = PIXMAN_FORMAT_A (format)? 0 : 0xff000000;
 	    }
 
-	    if (x2 == 0)
-	    {
+
 		tl = 0;
 		bl = 0;
-	    }
-	    else
+		
+	    if (!(x2 == 0))
 	    {
 		tl = convert_pixel (row1, 0) | mask1;
 		bl = convert_pixel (row2, 0) | mask2;
 	    }
 
-	    if (x1 == width - 1)
-	    {
 		tr = 0;
 		br = 0;
-	    }
-	    else
+	    if (!(x1 == width - 1))
 	    {
 		tr = convert_pixel (row1, 1) | mask1;
 		br = convert_pixel (row2, 1) | mask2;

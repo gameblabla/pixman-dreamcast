@@ -27,7 +27,7 @@
 #include <config.h>
 #endif
 #include "pixman-private.h"
-
+#include "dc.h"
 void
 _pixman_gradient_walker_init (pixman_gradient_walker_t *walker,
                               gradient_t *              gradient,
@@ -142,10 +142,10 @@ gradient_walker_reset (pixman_gradient_walker_t *walker,
     if (FLOAT_IS_ZERO (rx - lx) || left_x == INT32_MIN || right_x == INT32_MAX)
     {
 	walker->a_s = walker->r_s = walker->g_s = walker->b_s = 0.0f;
-	walker->a_b = (la + ra) / 510.0f;
-	walker->r_b = (lr + rr) / 510.0f;
-	walker->g_b = (lg + rg) / 510.0f;
-	walker->b_b = (lb + rb) / 510.0f;
+	walker->a_b = DIVIDE_REAL((la + ra), 510.0f);
+	walker->r_b = DIVIDE_REAL((lr + rr) , 510.0f);
+	walker->g_b = DIVIDE_REAL((lg + rg) , 510.0f);
+	walker->b_b = DIVIDE_REAL((lb + rb) , 510.0f);
     }
     else
     {

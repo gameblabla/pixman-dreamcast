@@ -67,6 +67,7 @@
 #include <limits.h>
 #include <string.h>
 #include <stdio.h>
+#include "dc.h"
 #include "pixman-private.h"
 
 #define PIXREGION_NIL(reg) ((reg)->data && !(reg)->data->numRects)
@@ -1715,7 +1716,7 @@ validate (region_type_t * badreg)
                 rit = malloc (data_size);
                 if (!rit)
 		    goto bail;
-                memcpy (rit, ri, num_ri * sizeof (region_info_t));
+                REAL_MEMCPY (rit, ri, num_ri * sizeof (region_info_t));
 	    }
             else
             {

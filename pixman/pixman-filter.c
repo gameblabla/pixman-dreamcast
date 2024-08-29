@@ -456,7 +456,7 @@ pixman_filter_create_separable_convolution (int             *n_values,
 
     *n_values = 4 + width * subsample_x + height * subsample_y;
     
-    params = malloc (*n_values * sizeof (pixman_fixed_t));
+    params = aligned_alloc (4,*n_values * sizeof (pixman_fixed_t));
     if (!params)
 	return NULL;
 

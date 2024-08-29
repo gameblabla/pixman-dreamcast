@@ -26,6 +26,7 @@
 #endif
 #include <stdlib.h>
 #include "pixman-private.h"
+#include "dc.h"
 
 pixman_implementation_t *
 _pixman_implementation_create (pixman_implementation_t *fallback,

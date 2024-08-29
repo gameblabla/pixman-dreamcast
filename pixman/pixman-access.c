@@ -313,7 +313,8 @@ static force_inline uint32_t
 convert_pixel_from_a8r8g8b8 (pixman_image_t *image,
 			     pixman_format_code_t format, uint32_t pixel)
 {
-    if (PIXMAN_FORMAT_TYPE (format) == PIXMAN_TYPE_GRAY)
+#ifndef FORCE_ARGB1555
+	if (PIXMAN_FORMAT_TYPE (format) == PIXMAN_TYPE_GRAY)
     {
 	pixel = CONVERT_RGB24_TO_Y15 (pixel);
 
@@ -329,6 +330,18 @@ convert_pixel_from_a8r8g8b8 (pixman_image_t *image,
     {
 	return convert_pixel (PIXMAN_a8r8g8b8, format, pixel);
     }
+#else
+    // Extract components in a single operation using bitwise masking and shifting
+    int32_t a = (pixel >> 31) & 0x1;  // Extract the MSB of the alpha channel
+    int32_t r = (pixel >> 19) & 0x1F; // Extract the top 5 bits of the red channel
+    int32_t g = (pixel >> 11) & 0x1F; // Extract the top 5 bits of the green channel
+    int32_t b = (pixel >> 3) & 0x1F;  // Extract the top 5 bits of the blue channel
+
+    // Combine the extracted bits into a single 16-bit ARGB1555 value
+    int32_t argb1555_pixel = (a << 15) | (r << 10) | (g << 5) | b;
+
+    return argb1555_pixel;
+#endif
 }
 
 static force_inline uint32_t
@@ -382,7 +395,9 @@ convert_and_store_pixel (bits_image_t *		image,
 {
     uint32_t converted = convert_pixel_from_a8r8g8b8 (
 	(pixman_image_t *)image, format, pixel);
-
+#ifdef FORCE_ARGB1555
+	WRITE (image, ((uint16_t *)dest + offset), converted & 0xffff);
+#else
     switch (PIXMAN_FORMAT_BPP (format))
     {
     case 1:
@@ -413,6 +428,7 @@ convert_and_store_pixel (bits_image_t *		image,
 	*dest = 0x0;
 	break;
     }
+#endif
 }
 
 #define MAKE_ACCESSORS(format)						\

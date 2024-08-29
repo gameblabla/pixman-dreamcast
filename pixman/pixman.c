@@ -344,10 +344,10 @@ compute_transformed_extents (pixman_transform_t   *transform,
     pixman_fixed_t x1, y1, x2, y2;
     int i;
 
-    x1 = pixman_int_to_fixed (extents->x1) + pixman_fixed_1 / 2;
-    y1 = pixman_int_to_fixed (extents->y1) + pixman_fixed_1 / 2;
-    x2 = pixman_int_to_fixed (extents->x2) - pixman_fixed_1 / 2;
-    y2 = pixman_int_to_fixed (extents->y2) - pixman_fixed_1 / 2;
+    x1 = pixman_int_to_fixed (extents->x1) + (pixman_fixed_1 >> 1);
+    y1 = pixman_int_to_fixed (extents->y1) + (pixman_fixed_1 >> 1);
+    x2 = pixman_int_to_fixed (extents->x2) - (pixman_fixed_1 >> 1);
+    y2 = pixman_int_to_fixed (extents->y2) - (pixman_fixed_1 >> 1);
 
     if (!transform)
     {

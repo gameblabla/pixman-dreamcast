@@ -31,7 +31,7 @@
 #include <math.h>
 #include <string.h>
 #include "pixman-private.h"
-
+#include "dc.h"
 #define F(x)    pixman_int_to_fixed (x)
 
 static force_inline int
@@ -73,22 +73,22 @@ rounded_udiv_128_by_48 (uint64_t  hi,
     REAL_assert(div < ((uint64_t)1 << 48));
 
     remainder = hi % div;
-    *result_hi = hi / div;
+    *result_hi = DIVIDE_REAL(hi,div);
 
     tmp = (remainder << 16) + (lo >> 48);
-    result_lo = tmp / div;
+    result_lo = DIVIDE_REAL(tmp,div);
     remainder = tmp % div;
 
     tmp = (remainder << 16) + ((lo >> 32) & 0xFFFF);
-    result_lo = (result_lo << 16) + (tmp / div);
+    result_lo = (result_lo << 16) + (DIVIDE_REAL(tmp,div));
     remainder = tmp % div;
 
     tmp = (remainder << 16) + ((lo >> 16) & 0xFFFF);
-    result_lo = (result_lo << 16) + (tmp / div);
+    result_lo = (result_lo << 16) + (DIVIDE_REAL(tmp,div));
     remainder = tmp % div;
 
     tmp = (remainder << 16) + (lo & 0xFFFF);
-    result_lo = (result_lo << 16) + (tmp / div);
+    result_lo = (result_lo << 16) + (DIVIDE_REAL(tmp,div));
     remainder = tmp % div;
 
     /* round to nearest */
@@ -841,7 +841,7 @@ pixman_f_transform_point (const struct pixman_f_transform *t,
 	return FALSE;
 
     for (j = 0; j < 2; j++)
-	v->v[j] = result.v[j] / result.v[2];
+	v->v[j] = DIVIDE_REAL(result.v[j],result.v[2]);
 
     v->v[2] = 1;
 
@@ -925,7 +925,7 @@ pixman_f_transform_scale (struct pixman_f_transform *forward,
     
     if (reverse)
     {
-	pixman_f_transform_init_scale (&t, 1 / sx, 1 / sy);
+	pixman_f_transform_init_scale (&t, DIVIDE_REAL(1,sx), DIVIDE_REAL(1 ,sy));
 	pixman_f_transform_multiply (reverse, reverse, &t);
     }
     

@@ -112,8 +112,8 @@ linear_get_scanline (pixman_iter_t                 *iter,
     _pixman_gradient_walker_init (&walker, gradient, image->common.repeat);
 
     /* reference point is the center of the pixel */
-    v.vector[0] = pixman_int_to_fixed (x) + pixman_fixed_1 / 2;
-    v.vector[1] = pixman_int_to_fixed (y) + pixman_fixed_1 / 2;
+    v.vector[0] = pixman_int_to_fixed (x) + (pixman_fixed_1 >> 1);
+    v.vector[1] = pixman_int_to_fixed (y) + (pixman_fixed_1 >> 1);
     v.vector[2] = pixman_fixed_1;
 
     if (image->common.transform)
@@ -207,7 +207,7 @@ linear_get_scanline (pixman_iter_t                 *iter,
 		write_pixel (&walker, t, buffer);
 	    }
 
-	    buffer += (Bpp / 4);
+	    buffer += (Bpp >> 2);
 
 	    v.vector[0] += unit.vector[0];
 	    v.vector[1] += unit.vector[1];

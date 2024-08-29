@@ -28,6 +28,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "fake_assert.h"
+#include "dc.h"
 
 #include "pixman-private.h"
 
@@ -181,7 +182,7 @@ _pixman_image_fini (pixman_image_t *image)
 pixman_image_t *
 _pixman_image_allocate (void)
 {
-    pixman_image_t *image = malloc (sizeof (pixman_image_t));
+    pixman_image_t *image = aligned_alloc (4,sizeof (pixman_image_t));
 
     if (image)
 	_pixman_image_init (image);
@@ -653,7 +654,7 @@ pixman_image_set_transform (pixman_image_t *          image,
     }
 
     if (common->transform == NULL)
-	common->transform = malloc (sizeof (pixman_transform_t));
+	common->transform = aligned_alloc (4,sizeof (pixman_transform_t));
 
     if (common->transform == NULL)
     {

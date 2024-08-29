@@ -261,7 +261,7 @@ get_factor (combine_factor_t factor, float sa, float da)
 }
 
 #define MAKE_PD_COMBINERS(name, a, b)					\
-    static float force_inline						\
+    static float inline						\
     pd_combine_ ## name (float sa, float s, float da, float d)		\
     {									\
 	const float fa = get_factor (a, sa, da);			\
@@ -360,13 +360,13 @@ MAKE_PD_COMBINERS (conjoint_xor,		ONE_MINUS_DA_OVER_SA,		ONE_MINUS_SA_OVER_DA)
  */
 
 #define MAKE_SEPARABLE_PDF_COMBINERS(name)				\
-    static force_inline float						\
+    static inline float						\
     combine_ ## name ## _a (float sa, float s, float da, float d)	\
     {									\
 	return da + sa - da * sa;					\
     }									\
     									\
-    static force_inline float						\
+    static inline float						\
     combine_ ## name ## _c (float sa, float s, float da, float d)	\
     {									\
 	float f = (1 - sa) * d + (1 - da) * s;				\

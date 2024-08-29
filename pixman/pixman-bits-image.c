@@ -35,7 +35,7 @@
 #include "pixman-private.h"
 #include "pixman-combine32.h"
 #include "pixman-inlines.h"
-
+#include "dc.h"
 /* Fetch functions */
 
 static force_inline void
@@ -414,13 +414,15 @@ bits_image_fetch_pixel_filtered (bits_image_t  *image,
 				 get_pixel_t    get_pixel,
 				 void          *out)
 {
+	bits_image_fetch_pixel_nearest (image, x, y, get_pixel, out);
+/*
     switch (image->common.filter)
     {
     case PIXMAN_FILTER_NEAREST:
     case PIXMAN_FILTER_FAST:
 	bits_image_fetch_pixel_nearest (image, x, y, get_pixel, out);
 	break;
-/*
+
     case PIXMAN_FILTER_BILINEAR:
     case PIXMAN_FILTER_GOOD:
     case PIXMAN_FILTER_BEST:
@@ -429,7 +431,7 @@ bits_image_fetch_pixel_filtered (bits_image_t  *image,
 	else
 	    bits_image_fetch_pixel_bilinear_32 (image, x, y, get_pixel, out);
 	break;
-*/
+
     case PIXMAN_FILTER_CONVOLUTION:
 	if (wide)
 	    bits_image_fetch_pixel_convolution (image, x, y,
@@ -457,6 +459,7 @@ bits_image_fetch_pixel_filtered (bits_image_t  *image,
     default:
         break;
     }
+   */
 }
 
 static uint32_t *

@@ -2,7 +2,9 @@
 CC = kos-cc
 AR = sh-elf-gcc-ar
 
-CFLAGS = -Ipixman -DPIXMAN_NO_TLS=1 -I. -DPACKAGE=1 -DNDEBUG=1 -Wno-incompatible-pointer-types
+CFLAGS = -Ipixman -DPIXMAN_NO_TLS=1 -I. -DPACKAGE=1 -DNDEBUG=1 -Wno-incompatible-pointer-types -Oz -Idc
+
+#-DFORCE_ARGB1555=1
 
 # Source directory
 SRCDIR = ./pixman
@@ -32,7 +34,7 @@ SRC_C = $(SRCDIR)/pixman-access-accessors.c \
         $(SRCDIR)/pixman-region32.c \
         $(SRCDIR)/pixman-solid-fill.c \
         $(SRCDIR)/pixman-trap.c \
-        $(SRCDIR)/pixman-utils.c
+        $(SRCDIR)/pixman-utils.c dc/mem_dc.c
 
 # Create object files by replacing .c with .o
 OBJ_C = $(SRC_C:.c=.o)

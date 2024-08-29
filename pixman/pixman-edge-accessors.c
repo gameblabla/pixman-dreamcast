@@ -1,4 +1,4 @@
 
-#define PIXMAN_FB_ACCESSORS
+//#define PIXMAN_FB_ACCESSORS
 
 #include "pixman-edge.c"

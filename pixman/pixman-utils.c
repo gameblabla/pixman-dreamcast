@@ -54,7 +54,7 @@ pixman_malloc_ab_plus_c (unsigned int a, unsigned int b, unsigned int c)
     if (!b || a >= INT32_MAX / b || (a * b) > INT32_MAX - c)
 	return NULL;
 
-    return malloc (a * b + c);
+    return aligned_alloc (4, a * b + c);
 }
 
 void *
@@ -64,7 +64,7 @@ pixman_malloc_ab (unsigned int a,
     if (a >= INT32_MAX / b)
 	return NULL;
 
-    return malloc (a * b);
+    return aligned_alloc (4,a * b);
 }
 
 void *
@@ -77,7 +77,7 @@ pixman_malloc_abc (unsigned int a,
     else if (a * b >= INT32_MAX / c)
 	return NULL;
     else
-	return malloc (a * b * c);
+	return aligned_alloc (4,a * b * c);
 }
 
 static force_inline uint16_t
